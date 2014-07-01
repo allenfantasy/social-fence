@@ -9,4 +9,9 @@ var userSchema = new Schema({
   latitude: String
 });
 
+// return the 1st record by name
+userSchema.static.findByName = function(name, cb) {
+  this.findOne({ name: name }, cb);
+}
+
 module.exports = mongoose.model('User', userSchema);
