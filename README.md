@@ -14,10 +14,11 @@
 * body 消息内容
 * sender_id 发送者id
 * receiver_id 接受者id
+* created_at 消息创建时间
 * type
     * 0 问题：通过 /askall 传入的消息
     * 1 回答：通过 /answer 传入的消息
-    * 2 普通消息 通过 /reply 传入的消息
+* question_id 问题的id（只有type=1的消息才有这个属性）
 
 ### 功能点/使用场景
 
@@ -212,34 +213,5 @@
 {
     code: 400,
     message: 'something wrong...' // custom message
-}
-```
-
-#### POST /reply
-
-**请求参数**
-```javascript
-{
-    id: 2, // 自己的ID
-    token: ...
-    reply: {
-        message_id: 9876,
-        body: '好呀不如一起去吃',
-        receiver_id: 3
-    }
-}
-```
-
-**回复参数**
-```javascript
-// success
-{
-    code: 200,
-    message: 'reply success'
-}
-// failed
-{
-    code: 400,
-    message: 'something fucked up' // custom error message, wutever.
 }
 ```
