@@ -4,8 +4,10 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes');
-var authHandler = require('./routes/auth')
+var ping = require('./controllers/ping')
+  , index = require('./controllers/index')
+  , message = require('./controllers/message')
+  , auth = require('./controllers/auth');
 
 var app = express();
 
@@ -16,18 +18,15 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
-app.get('/', routes.index);
+app.get('/', index);
 
-app.use('/auth', authHandler);
+// auth subapp
+app.use('/auth', auth);
 
+// POST /ping
+app.post('/ping', ping);
 
-
-
-
-
-
-
-
+app.use('/', message);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
