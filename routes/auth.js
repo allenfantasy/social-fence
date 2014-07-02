@@ -2,7 +2,7 @@ var express = require('express')
   , app = express();
 
 var verifier = require('../lib/verifier')
-  , verifySigninParams = verifier.verifySigninParams
+  , verifyAuthParams = verifier.verifyAuthParams
   , base = require('../lib/base')
   , encode = base.encode
   , getToken = base.getToken;
@@ -12,7 +12,7 @@ var user = require('../models/user')
 app.post('/signin', function(req, res) {
   var params = req.body, username, password, token;
   // verify username & password
-  var data = verifier.verifySigninParams(params)
+  var data = verifier.verifyAuthParams(params)
 
   if (data.err) {
     res.json({
@@ -29,7 +29,7 @@ app.post('/signin', function(req, res) {
   User.findByName(username, function(err, user) {
     if (!user) {
       res.json({
-        code: 402,
+        code: 500,
         message: 'cannot find user'
       });
     } else if (encode(password) !== user.password) {
@@ -48,11 +48,35 @@ app.post('/signin', function(req, res) {
 })
 
 app.post('/signup', function(req, res) {
-  // verify username & password
-  // return err if not valid
-  // else
-  // create an user
-  // return & store TOKEN
+  var params = req.body, username, password;
+  var data = verifier.verifyAuthParams(params)
+
+  if (data.err) {
+    res.json({
+      code: 400,
+      message: data.err
+    })
+    return;
+  }
+
+  username = params.username;
+  password = params.password;
+
+  var user = new User({ name: username, password: encode(password) })
+  user.save(function(err, user) {
+    if (err) {
+      res.json({
+        code: 500,
+        message: err.message
+      });
+    } else {
+      var token = getToken(username, password);
+      res.json({
+        code: 200,
+        token: token
+      })
+    }
+  });
 })
 
 module.exports = app;
