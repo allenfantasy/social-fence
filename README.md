@@ -8,6 +8,7 @@
 * password
 * longitude 经度
 * latitude 纬度
+* token
 
 #### Message
 
@@ -67,9 +68,10 @@
 
 ```javascript
 {
+    code: 200,
     people: [
         {
-            id: 1,
+            id: "4b27c3c7635f35f740a0f2be",
             name: "张文超",
             // 坐标，如果可以要显示在地图上/或者显示离自己多远
             longitude: 113.68795,
@@ -86,7 +88,7 @@
 
 ```javascript
 {
-    id: 2, // 用户自己的ID
+    id: "4b23c3ca7525f35f94b60a2d", // 用户自己的ID
     token: "NGY2Y2I0NmY1MDg3YjE0ZjhiNmZjMDRjNjMyY2EzMjk=", // 由服务器分派
     longitude: 113.40006, // 经度
     latitude: 23.06717 // 纬度
@@ -104,8 +106,8 @@
         {
             body: "最近的邮局在哪里?",
             sender_name: "艾伦",
-            sender_id: 10,
-            msg_id: 239
+            sender_id: "4b23c3ca7525f35f94b60a2d",
+            msg_id: "4b23c3ca7525f35f746a0a2e"
         }
         //, ...
     ],
@@ -114,18 +116,18 @@
         {
             body: '前面有家隔路面馆，比较好吃',
             sender_name: '许小年',
-            sender_id: 3,
-            msg_id: 230
+            sender_id: "4b26c2ca7525f35f746a0a2e",
+            msg_id: "4b23c3ca7635f35f746a0a2e"
         }
         //, ...
     ],
-    // 聊天回复
+    // 聊天回复[暂不支持]
     replies: [
         {
             body: "我们在三饭见",
             sender_name: "雯丹",
-            sender_id: 22,
-            msg_id: 232
+            sender_id: "4b26c2ca7525f35f746a0a2e",
+            msg_id: "4b23c3ca7635f35f746a0a2e"
         }
     ]
 }
@@ -136,7 +138,7 @@
 **请求参数**
 ```javascript
 {
-    id: 3, // user's ID
+    id: "4b2353ca7635f35f746a0a2e", // user's ID
     token: "NGY2Y2I0NmY1MDg3YjE0ZjhiNmZjMDRjNjMyY2EzMjk=", // an token generated from server.
     body: "有谁知道附近好吃的地方在哪里?"
 }
@@ -146,21 +148,22 @@
 
 ```javascript
 {
+    code: 200,
     answers: [
         {
             body: "贝岗有家东北饺子不错",
             sender_name: "嘉骏",
-            sender_id: 8,
-            msg_id: 232
+            sender_id: "4b26c2ca7525f35f746a0a2e",
+            msg_id: "4b23c3ca7635f35f746a0a2e"
         },
         {
             body: "不知道噢，二饭?",
             sender_name: "晓彤",
-            sender_id: 7,
-            msg_id: 127
+            sender_id: "4b26c2ca7525f35f746a0a2e",
+            msg_id: "4b23c3ca7635f35f746a0a2e"
         }
     ],
-    id: 829 // 刚才的问题的ID，便于再次发问
+    id: "4b27c3ca7635f35f746a0a2e" // 刚才的问题的ID，便于再次发问
 }
 ```
 
@@ -169,9 +172,9 @@
 **请求参数**
 ```javascript
 {
-    id: 3, // user's ID
+    id: "4b27c3ca7635f35f746a0a2e", // user's ID
     token: "NGY2Y2I0NmY1MDg3YjE0ZjhiNmZjMDRjNjMyY2EzMjk=", // an token generated from server.
-    question_id: 829
+    question_id: "4b27c3c7635f35f746a0a2be"
 }
 ```
 
@@ -195,9 +198,9 @@
 **请求参数**
 ```javascript
 {
-    id: 3, // user ID
+    id: "4b27c3ca7635f35f746a0a2e", // user's ID
     token: ...
-    question_id: 329,
+    question_id: "4b27c3c7635f35f746a0a2be",
     body: '向体育馆的方向走3分钟就到惠佳了'
 }
 ```

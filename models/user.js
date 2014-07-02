@@ -9,6 +9,14 @@ var userSchema = new Schema({
   latitude: String
 });
 
+userSchema.methods = {
+  isAround: function(longitude, latitude) {
+    var self = this;
+    // TODO: algorithms...
+    return true;
+  }
+}
+
 // return the 1st record by name
 userSchema.static.findByName = function(name, cb) {
   this.findOne({ name: name }, cb);
