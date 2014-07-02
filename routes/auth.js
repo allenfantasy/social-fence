@@ -48,7 +48,7 @@ app.post('/signin', function(req, res) {
 })
 
 app.post('/signup', function(req, res) {
-  var params = req.body, username, password;
+  var params = req.body, username, password, user, token;
   var data = verifier.verifyAuthParams(params)
 
   if (data.err) {
@@ -61,8 +61,10 @@ app.post('/signup', function(req, res) {
 
   username = params.username;
   password = params.password;
+  token = getToken(username, password);
 
-  var user = new User({ name: username, password: encode(password) })
+  user = new User({ name: username, password: encode(password), token: token })
+
   user.save(function(err, user) {
     if (err) {
       res.json({
@@ -70,7 +72,6 @@ app.post('/signup', function(req, res) {
         message: err.message
       });
     } else {
-      var token = getToken(username, password);
       res.json({
         code: 200,
         token: token
