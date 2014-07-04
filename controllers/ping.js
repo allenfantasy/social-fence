@@ -1,4 +1,5 @@
 var verifier = require('../lib/verifier');
+var User = require('../models/user');
 
 module.exports = function(req, res) {
   var params = req.body, id;

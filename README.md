@@ -62,7 +62,14 @@
 
 #### GET /people
 
-**请求参数** 无
+**请求参数** 
+
+```javascript
+{
+  id: "4b23c3ca7525f35f94b60a2d",
+  token: "NGY2Y2I0NmY1MDg3YjE0ZjhiNmZjMDRjNjMyY2EzMjk="
+}
+```
 
 **回复参数**
 

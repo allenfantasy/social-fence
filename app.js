@@ -7,7 +7,10 @@ var bodyParser = require('body-parser');
 var ping = require('./controllers/ping')
   , index = require('./controllers/index')
   , message = require('./controllers/message')
-  , auth = require('./controllers/auth');
+  , users = require('./controllers/users')
+  , people = require('./controllers/people');
+
+var auth = require('./controllers/auth');
 
 var app = express();
 
@@ -18,15 +21,21 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
+// authenticate
+app.use(auth);
+
 app.get('/', index);
 
 // auth subapp
-app.use('/auth', auth);
+app.use('/users', users);
+
+// GET /people
+app.get('/people', auth, people);
 
 // POST /ping
-app.post('/ping', ping);
+app.post('/ping', auth, ping);
 
-app.use('/', message);
+app.use('/', auth, message);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
