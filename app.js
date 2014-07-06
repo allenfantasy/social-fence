@@ -21,18 +21,17 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
-// authenticate
-app.use(auth);
-
 app.get('/', index);
 
-// auth subapp
+// initialize
+global.QUESTION_QUEUE = [];
+
+// POST /users/signin
+// POST /users/signup
 app.use('/users', users);
 
-// GET /people
-app.get('/people', auth, people);
+app.post('/people', auth, people);
 
-// POST /ping
 app.post('/ping', auth, ping);
 
 app.use('/', auth, message);

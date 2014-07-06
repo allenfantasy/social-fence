@@ -3,13 +3,13 @@ var express = require('express')
 
 var verifier = require('../lib/verifier')
   , verifyAuthParams = verifier.verifyAuthParams
-  , base = require('../lib/base')
-  , encode = base.encode
-  , getToken = base.getToken;
+  , util = require('../lib/util')
+  , encode = util.encode
+  , getToken = util.getToken;
 
 var user = require('../models/user')
 
-app.post('/signin', function(req, res) {
+function signinHandler(req, res) {
   var params = req.body, username, password, token;
   // verify username & password
   var data = verifier.verifyAuthParams(params)
@@ -45,9 +45,9 @@ app.post('/signin', function(req, res) {
       })
     }
   });
-})
+}
 
-app.post('/signup', function(req, res) {
+function signupHandler(req, res) {
   var params = req.body, username, password, user, token;
   var data = verifier.verifyAuthParams(params)
 
@@ -78,6 +78,11 @@ app.post('/signup', function(req, res) {
       })
     }
   });
-})
+}
 
-module.exports = app;
+module.exports = function() {
+
+  app.post('/signin', signinHandler);
+  app.post('/signup', signupHandler);
+  return app;
+};

@@ -13,22 +13,26 @@
 #### Message
 
 * body 消息内容
-* sender_id 发送者id
-* receiver_id 接受者id
-* created_at 消息创建时间
+* senderId 发送者id
+* receiverId 接受者id
+* createdAt 消息创建时间
 * type
     * 0 问题：通过 /askall 传入的消息
     * 1 回答：通过 /answer 传入的消息
-* question_id 问题的id（只有type=1的消息才有这个属性）
+    * 2 有效回答：通过 /answer 传入的消息，并已经作为答案返回给用户
+* questionId 问题的id（只有type=1,2的消息才有这个属性）
 
 ### 功能点/使用场景
 
 1. 用户可以查看附近的人 **GET /people**
 2. 用户每隔60s向服务器发送心跳包，收到最新消息（最新的问题，自己问题得到的回答，普通消息） **POST /ping**
-3. 用户可以提问，收到服务器的自动应答 **POST /ask**
-4. 收到自动应答后不满意可以广播这条问题 **POST /askall**
-5. 用户可以回答问题 **POST /answer**
-6. 用户可以回复消息 **POST /reply**
+3. 用户可以提问，收到服务器的自动应答 **POST /ask** [WIP]
+4. 收到自动应答后不满意可以广播这条问题 **POST /askall** [WIP]
+5. 用户可以回答问题 **POST /answer** [WIP]
+6. 用户可以回复消息 **POST /reply** [WIP]
+7. 注册 **POST /users/signup**
+8. 登陆 **POST /users/signin**
+9. 注销(在本地删除TOKEN)
 
 ### API
 
@@ -62,7 +66,7 @@
 
 #### GET /people
 
-**请求参数** 
+**请求参数**
 
 ```javascript
 {
@@ -121,10 +125,22 @@
     // 收到的答案
     answers: [
         {
-            body: '前面有家隔路面馆，比较好吃',
-            sender_name: '许小年',
-            sender_id: "4b26c2ca7525f35f746a0a2e",
-            msg_id: "4b23c3ca7635f35f746a0a2e"
+            question_id: "4b23c3ca7635f35f746a0a2e",
+            answers: [
+                {
+                   body: '前面有家隔路面馆，比较好吃',
+                   sender_name: '许小年',
+                   sender_id: "4b26c2ca7525f35f746a0a2e",
+                   msg_id: "4b23c3ca7635f35f746a0a2e"
+                }
+                //, ...
+            ]
+        },
+        {
+            question_id: "4b23c3ca7635f35f746a0b2e",
+            answers: [
+                // ...
+            ]
         }
         //, ...
     ],
@@ -225,3 +241,7 @@
     message: 'something wrong...' // custom message
 }
 ```
+
+#### POST /users/signup
+
+#### POST /users/signin
